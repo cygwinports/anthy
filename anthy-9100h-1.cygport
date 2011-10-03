@@ -1,0 +1,11 @@
+DESCRIPTION="Japanese input method library"
+HOMEPAGE="http://sourceforge.jp/projects/anthy/"
+SRC_URI="http://osdn.dl.sourceforge.jp/anthy/37536/anthy-9100h.tar.gz"
+
+PATCH_URI="9100h-exeext.patch
+           9100h-no-undefined.patch"
+
+PKG_NAMES="${PN} lib${PN}0 lib${PN}-devel"
+anthy_CONTENTS="etc/ usr/bin/*.exe usr/share/"
+libanthy0_CONTENTS="usr/bin/cyganthy*-0.dll"
+libanthy_devel_CONTENTS="usr/include/ usr/lib/"

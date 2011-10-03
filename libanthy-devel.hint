@@ -1,0 +1,6 @@
+category: Text
+requires: libanthy0
+external-source: anthy
+sdesc: "Japanese input method library (development)"
+ldesc: "Anthy is a system for Japanese input method. It converts 
+Hiragana text to Kana Kanji mixed text."
