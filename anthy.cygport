@@ -1,0 +1,50 @@
+NAME="anthy"
+VERSION=9100h
+RELEASE=2
+CATEGORY="Libs"
+SUMMARY="Japanese input method"
+DESCRIPTION="Anthy is a system for Japanese input method. It converts
+Hiragana text to Kana Kanji mixed text."
+HOMEPAGE="http://sourceforge.jp/projects/anthy/"
+SRC_URI="http://osdn.dl.sourceforge.jp/anthy/37536/anthy-${VERSION}.tar.gz"
+PATCH_URI="
+	http://pkgs.fedoraproject.org/cgit/anthy.git/plain/anthy-fix-typo-in-dict.patch
+	http://pkgs.fedoraproject.org/cgit/anthy.git/plain/anthy-fix-typo-in-dict-name.patch
+	http://pkgs.fedoraproject.org/cgit/anthy.git/plain/anthy-corpus.patch
+	http://pkgs.fedoraproject.org/cgit/anthy.git/plain/anthy-fix-elisp.patch
+	http://pkgs.fedoraproject.org/cgit/anthy.git/plain/anthy-fix-segfault.patch
+	9100h-exeext.patch
+	9100h-no-undefined.patch
+	9100h-utf8.patch
+"
+
+PKG_NAMES="${NAME} lib${NAME}0 lib${NAME}-common lib${NAME}-devel emacs-${NAME}"
+anthy_CATEGORY="Text"
+anthy_CONTENTS="usr/bin/*.exe usr/share/doc/"
+libanthy0_REQUIRES="libanthy-common"
+libanthy0_CONTENTS="usr/bin/cyganthy*-0.dll"
+libanthy_common_CONTENTS="etc/ usr/share/anthy/"
+libanthy_devel_CONTENTS="usr/include/ usr/lib/"
+emacs_anthy_CATEGORY="Editors"
+emacs_anthy_CONTENTS="usr/share/emacs/"
+
+CYGPORT_USE_UNSTABLE_API=1
+src_patch_hook() {
+	local f
+
+	for f in alt-cannadic/*.ctd mkworddic/{adjust,compound,extra,zipcode}.t mkworddic/udict
+	do
+		inform "Converting $f to UTF-8"
+		iconv -f euc-jp -t utf-8 $f > $f.utf8
+		mv -f $f.utf8 $f
+	done
+	for f in alt-cannadic/extra/*.t
+	do
+		inform "Normalizing $f"
+		sed -e 's/^\([^  ]*\)t[  ]*\(#[A-Z0-9\*]*\)[  ]*\([^  ]*\)$/\1 \2 \3/g' $f > $f.norm
+		mv -f $f.norm $f
+	done
+}
+
+# prevent stack overflow in mkworddic
+LDFLAGS+=" -Wl,--stack,0x4000000"

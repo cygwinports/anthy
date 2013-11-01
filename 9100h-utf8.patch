@@ -1,0 +1,29 @@
+--- origsrc/anthy-9100h/mkworddic/dict.args.in	2007-10-27 08:46:35.000000000 -0500
++++ src/anthy-9100h/mkworddic/dict.args.in	2013-10-31 23:56:19.959877300 -0500
+@@ -6,19 +6,23 @@
+ # 別のスクリプトからこのファイルをechoやcat、sed等を
+ # 駆使して生成することも想定
+ #
+-set_input_encoding eucjp
++set_input_encoding utf8
+ read @top_srcdir@/alt-cannadic/gcanna.ctd
+ #
+ read @top_srcdir@/alt-cannadic/gcannaf.ctd
+ read @top_srcdir@/alt-cannadic/gtankan.ctd
+ #
++read @top_srcdir@/alt-cannadic/extra/g-jiritu-34.t
++read @top_srcdir@/alt-cannadic/extra/gc-fullname-34.t
++read @top_srcdir@/alt-cannadic/extra/gt-tankanji_kanji-34.t
++read @top_srcdir@/alt-cannadic/extra/gt-tankanji_hikanji-34.t
++read @top_srcdir@/alt-cannadic/extra/gf-fuzoku-34.t
++#
+ read @top_srcdir@/mkworddic/adjust.t
+ read @top_srcdir@/mkworddic/compound.t
+ read @top_srcdir@/mkworddic/extra.t
+ #read @top_srcdir@/mkworddic/base.t
+ #
+-set_input_encoding utf8
+-read @top_srcdir@/mkworddic/utf8.t
+ read @top_srcdir@/alt-cannadic/g_fname.t
+ #
+ # this command will make reverse dictionary
